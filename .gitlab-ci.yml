@@ -8,3 +8,8 @@ test:
   stage: test
   script:
     - echo "Nothing to Do"
+
+include:
+  - project: estudosdevops/pipeline/jobs/semantic-release
+    ref: master
+    file: Release.gitlab-ci.yml
