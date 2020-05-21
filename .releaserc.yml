@@ -1,0 +1,35 @@
+---
+branch: master
+noCi: true
+analyzeCommits:
+  preset: eslint
+generateNotes:
+  preset: eslint
+release:
+  verifyConditions:
+    - "@semantic-release/changelog"
+    - "@semantic-release/gitlab"
+    - "@semantic-release/git"
+  prepare:
+    - make CLI_DIST_VERSION=${nextRelease.gitTag} dist
+    - "@semantic-release/changelog"
+    - "@semantic-release/gitlab"
+  publish:
+    path: "@semantic-release/gitlab"
+    gitlabUrl: "https://gitlab.com"
+  plugins:
+    - "@semantic-release/commit-analyzer"
+    - "@semantic-release/release-notes-generator"
+    - "@semantic-release/changelog"
+    - changelogFile: "docs/CHANGELOG.md"
+    - "@semantic-release/git"
+    - assets:
+        - CHANGELOG.md
+      message: >
+        Chore: Release ${nextRelease.version}
+        ${nextRelease.notes}
+success: false
+fail: false
+npmPublish: false
+tarballDir: false
+tagFormat: "${version}"

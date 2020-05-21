@@ -1,0 +1,10 @@
+---
+image: alpine
+
+stages:
+  - test
+
+test:
+  stage: test
+  script:
+    - echo "Nothing to Do"
