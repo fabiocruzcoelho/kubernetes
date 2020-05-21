@@ -3,6 +3,7 @@ image: alpine
 
 stages:
   - test
+  - release
 
 test:
   stage: test
