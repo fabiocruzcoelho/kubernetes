@@ -21,32 +21,5 @@ repos:
       files: \.(yaml|yml)$
       args: [
         "--exclude=roles",
-        "--exclude=basic/roles",
         "--exclude=requirements.yml"
       ]
-
-
-
-
-
-
-
-
-# default_stages: [commit, push]
-
-# repos:
-#   - repo: local
-#     hooks:
-#       - id: yamllint
-#         name: yamllint
-#         description: This hook runs yamllint
-#         entry: yamllint -c .yamllint .
-#         language: python
-#         files: \.(yaml|yml)$
-
-#       - id: ansible-lint
-#         name: Ansible-lint
-#         description: This hook runs ansible-lint
-#         entry: ansible-lint --force-color
-#         language: python
-#         files: \.(yaml|yml)$
