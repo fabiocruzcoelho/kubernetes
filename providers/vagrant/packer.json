@@ -6,19 +6,19 @@
       {
         "type": "shell",
         "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-        "script": "../../scripts/ansible.sh"
+        "script": "providers/vagrant/scripts/ansible.sh"
       },
 
       {
         "type": "shell",
         "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-        "script": "../../scripts/setup.sh"
+        "script": "providers/vagrant/scripts/setup.sh"
       },
 
       {
         "type": "shell",
         "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-        "script": "../../scripts/cleanup.sh"
+        "script": "providers/vagrant/scripts/cleanup.sh"
       }
     ],
     "builders": [
@@ -50,7 +50,7 @@
           "<enter><wait>"
         ],
         "boot_wait": "10s",
-        "disk_size": 20000,
+        "disk_size": 30000,
         "guest_os_type": "Ubuntu_64",
         "headless": true,
         "http_directory": "http",
