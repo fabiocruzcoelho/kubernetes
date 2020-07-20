@@ -40,3 +40,12 @@ vagrant_ansible_inventory
 
 # Log files (if you are creating logs in debug mode, uncomment this)
 *.log
+
+# Cache objects
+packer_cache/
+
+# Crash log
+crash.log
+
+# For built boxes
+*.box
