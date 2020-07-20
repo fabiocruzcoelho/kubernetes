@@ -2,7 +2,6 @@
 # # vi: set ft=ruby :
 
 # For help on using kubernetes with vagrant, check out virtualbox/README.md
-
 require 'fileutils'
 
 Vagrant.require_version ">= 2.0.0"
