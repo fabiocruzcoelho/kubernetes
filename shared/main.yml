@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: Install some helpful utilities.
+      apt:
+        name:
+          - git
+          - wget
+          - curl
+          - vim
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: kubeadm
+      include_role:
+        name: kubeadm
+      vars:
+        kubernetes_version: 1.18

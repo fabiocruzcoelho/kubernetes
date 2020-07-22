@@ -1,0 +1,3 @@
+---
+- name: kubeadm
+  src: fabiocruzcoelho.kubeadm
