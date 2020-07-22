@@ -6,7 +6,7 @@ require 'fileutils'
 
 Vagrant.require_version ">= 2.0.0"
 
-CONFIG = File.join(File.dirname(__FILE__), ENV['KUBE_VAGRANT_CONFIG'] || 'providers/vagrant/config.rb')
+CONFIG = File.join(File.dirname(__FILE__), ENV['KUBE_VAGRANT_CONFIG'] || 'virtualbox/config.rb')
 
 SUPPORTED_OS = {
   "ubuntu1604"          => {box: "generic/ubuntu1604",         user: "vagrant"},
