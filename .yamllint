@@ -1,6 +1,10 @@
 ---
 extends: default
 
+ignore: |
+  gcp/
+  roles/
+
 rules:
   braces:
     max-spaces-inside: 1

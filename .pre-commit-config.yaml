@@ -1,25 +1,31 @@
 ---
 repos:
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  sha: v3.1.0
-  hooks:
-    - id: trailing-whitespace
-    # - id: end-of-file-fixer
-    - id: check-json
-    - id: check-yaml
-    - id: check-symlinks
-    - id: detect-aws-credentials
-      args:
-        - --allow-missing-credentials
-    - id: check-added-large-files
-    - id: detect-private-key
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    sha: v3.1.0
+    hooks:
+      - id: trailing-whitespace
+      # - id: end-of-file-fixer
+      - id: check-json
+      - id: check-yaml
+      - id: check-symlinks
+      - id: detect-aws-credentials
+        args:
+          - --allow-missing-credentials
+      - id: check-added-large-files
+      - id: detect-private-key
 
-- repo: https://github.com/willthames/ansible-lint.git
-  sha: v4.2.0
-  hooks:
-    - id: ansible-lint
-      files: \.(yaml|yml)$
-      args: [
-        "--exclude=roles",
-        "--exclude=requirements.yml"
-      ]
+  - repo: https://github.com/willthames/ansible-lint.git
+    sha: v4.2.0
+    hooks:
+      - id: ansible-lint
+        files: \.(yaml|yml)$
+        args: ["--exclude=roles", "--exclude=requirements.yml"]
+
+  - repo: local
+    hooks:
+      - id: yamllint
+        name: yamllint
+        description: This hook runs yamllint
+        entry: yamllint -c .yamllint .
+        language: python
+        files: \.(yaml|yml)$
