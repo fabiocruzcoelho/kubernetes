@@ -4,10 +4,12 @@
   gather_facts: false
 
   vars:
-    boxes:
-      - kubeadm
-    versions: {}
+    providers:
+      - virtualbox
 
   tasks:
-    - include_tasks: tasks/build-a-box.yml
-      loop: "{{ boxes }}"
+    - name: Build and push the image using Packer.
+      command: >
+        packer build -var 'version={{ kubernetes_version }}' packer.json
+        chdir={{ item }}
+      loop: "{{ providers }}"
