@@ -22,8 +22,8 @@
         name: kube-cluster
       vars:
         kubernetes_version: 1.18
-        kubernetes_apiserver_advertise_address: "{{ kube_master_ip }}"
         kubernetes_allow_pods_on_master: true
+        kubernetes_apiserver_advertise_address: "{{ kube_master_ip }}"
   tags:
     - never
     - cluster
