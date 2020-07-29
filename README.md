@@ -21,13 +21,18 @@
 
 - [Usage](#usage)
   - [Installation](#Install)
-  - [Vagrant](https://gitlab.com/estudosdevops/kubernetes/-/blob/master/virtualbox/README.md)
+- [Provider](#provider)
+  - [Virtualbox](https://gitlab.com/estudosdevops/kubernetes/-/blob/master/virtualbox/README.md)
 
 ## Install
 
 > The playbook deploy um cluster Kubernetes on version `1.18`
 
-- Hardware requirements
+- Dependencies
+  - Ansible
+  - Virtualbox
+
+> Hardware requirements instances/VM's
 
 | Provider              |   Master/Worker Instance Type   |     Linux OS |
 | --------------------- | :-----------------------------: | -----------: |
@@ -60,8 +65,6 @@ make run playbook=cluster  env=inventory/sample.ini args='-e "provider=<vmware> 
 ```sh
 make dry-run playbook=cluster  env=inventory/sample.ini args='-e "provider=<provider_name> kube_master_ip=<ipaddress>"' tag=kubeadm,cluster
 ```
-
-## Check Cluster
 
 ```sh
 kubectl get nodes
