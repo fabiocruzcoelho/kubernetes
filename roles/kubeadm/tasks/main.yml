@@ -1,0 +1,43 @@
+---
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Ensure dependencies are installed.
+  package:
+    name: curl
+    state: present
+
+- name: Install docker.
+  package:
+    name: docker.io
+    state: present
+
+- include_tasks: docker-users.yml
+  when: docker_users | length > 0
+
+- name: Install Kubernetes packages.
+  package:
+    name: "{{ item.name | default(item) }}"
+    state: "{{ item.state | default('present') }}"
+  notify: restart kubelet
+  loop: "{{ kubernetes_packages }}"
+
+- name: Pull images with kubeadm config.
+  command: kubeadm config images pull
+
+- name: Ensure kubelet is started and enabled at boot.
+  systemd:
+    name: kubelet
+    state: started
+    enabled: true
+
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes

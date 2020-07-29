@@ -1,0 +1,6 @@
+---
+- name: Lint it
+  hosts: all
+  gather_facts: yes
+  roles:
+    - '../'

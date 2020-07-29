@@ -10,6 +10,6 @@
   tasks:
     - name: Build and push the image using Packer.
       command: >
-        packer build -var 'version={{ kubernetes_version }}' packer.json
+        packer build -var 'version={{ new_version }}' packer.json
         chdir={{ item }}
       loop: "{{ providers }}"

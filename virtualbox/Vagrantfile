@@ -19,7 +19,9 @@ Vagrant.configure("2") do |config|
         v.customize ["modifyvm", :id, "--ioapic", "on"]
       end
 
-      config.vm.provision "shell", inline: "echo Hello, World"
+      # config.vm.provision "shell", inline: "echo Hello, World"
+      # Disable swap for each vm
+      config.vm.provision "shell", inline: "swapoff -a"
     end
 
   end

@@ -1,12 +1,29 @@
 ---
-- hosts: all
-  gather_facts: no
-  become: no
+- hosts: kube-cluster
+  become: yes
+  gather_facts: yes
   tasks:
-    - name: "Check ansible version >=2.7.8"
-      assert:
-        msg: "Ansible must be v2.7.8 or higher"
-        that:
-          - ansible_version.string is version("2.7.8", ">=")
-      tags:
-        - check
+    - name: Install kubeadm
+      include_role:
+        name: kubeadm
+      vars:
+        kubernetes_version: 1.18
+      when: cloud_provider == 'gcp'
+  tags:
+    - never
+    - kubeadm
+
+- hosts: kube-cluster
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Initialize cluster
+      include_role:
+        name: kube-cluster
+      vars:
+        kubernetes_version: 1.18
+        kubernetes_apiserver_advertise_address: "{{ kube_master_ip }}"
+        kubernetes_allow_pods_on_master: true
+  tags:
+    - never
+    - cluster

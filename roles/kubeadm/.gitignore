@@ -1,0 +1,6 @@
+# Ansible files
+*.retry
+
+# Others
+npm-debug.log
+.travis.yml

@@ -1,0 +1,13 @@
+---
+image: registry.gitlab.com/estudosdevops/pipeline/jobs/ansible:master
+
+stages:
+  - lint
+
+before_script:
+  - ansible-lint --version
+
+ansible-lint:
+  stage: lint
+  script:
+    - ansible-lint -v *.yml

@@ -1,21 +1,18 @@
 # -*- mode: ruby -*-
 # # vi: set ft=ruby :
 
+# Original: https://github.com/kubernetes-sigs/kubespray/blob/master/Vagrantfile
 # For help on using kubernetes with vagrant, check out virtualbox/README.md
 require 'fileutils'
 
 Vagrant.require_version ">= 2.0.0"
 
-CONFIG = File.join(File.dirname(__FILE__), ENV['KUBE_VAGRANT_CONFIG'] || 'virtualbox/config.rb')
+CONFIG = File.join(File.dirname(__FILE__), ENV['KUBE_VAGRANT_CONFIG'] || 'vagrant/config.rb')
 
 SUPPORTED_OS = {
-  "ubuntu1604"          => {box: "generic/ubuntu1604",         user: "vagrant"},
+  "kubeadm"             => {box: "fcruzcoelho/kubeadm",        user: "vagrant"},
   "ubuntu1804"          => {box: "generic/ubuntu1804",         user: "vagrant"},
   "ubuntu2004"          => {box: "generic/ubuntu2004",         user: "vagrant"},
-  "centos"              => {box: "centos/7",                   user: "vagrant"},
-  "centos-bento"        => {box: "bento/centos-7.6",           user: "vagrant"},
-  "centos8"             => {box: "centos/8",                   user: "vagrant"},
-  "centos8-bento"       => {box: "bento/centos-8",             user: "vagrant"},
 }
 
 if File.exist?(CONFIG)
@@ -24,26 +21,24 @@ end
 
 # Defaults for config options defined in CONFIG
 $num_instances ||= 3
-$instance_name_prefix ||= "k8s"
+$instance_name_prefix ||= "kube"
 $vm_gui ||= false
 $vm_memory ||= 2048
 $vm_cpus ||= 1
 $shared_folders ||= {}
 $forwarded_ports ||= {}
 $subnet ||= "172.18.8"
-$os ||= "ubuntu1804"
+$os ||= "kubeadm"
 $network_plugin ||= "flannel"
 
 # Setting multi_networking to true will install Multus: https://github.com/intel/multus-cni
 $multi_networking ||= false
-$download_run_once ||= "True"
-$download_force_cache ||= "True"
 
 # The first three nodes are etcd servers
-$etcd_instances ||= $num_instances
+# $etcd_instances ||= $num_instances
 
-# The first two nodes are kube masters
-$kube_master_instances ||= $num_instances == 1 ? $num_instances : ($num_instances - 1)
+# The first node are kube master
+$kube_master_instances ||= $num_instances == 1 ? $num_instances : ($num_instances - 2)
 
 # All nodes are kube nodes
 $kube_node_instances ||= $num_instances
@@ -125,28 +120,14 @@ Vagrant.configure("2") do |config|
       ip = "#{$subnet}.#{i+100}"
       node.vm.network :private_network, ip: ip
 
-      # Bootstrap for each vm
-      config.vm.provision :shell, :path => "scripts/bootstrap.sh"
+      # Disable swap for each vm
+      node.vm.provision "shell", inline: "swapoff -a"
 
       host_vars[vm_name] = {
         "ip": ip,
         "flannel_interface": "eth1",
         "kube_network_plugin": $network_plugin,
         "kube_network_plugin_multus": $multi_networking,
-        "download_run_once": $download_run_once,
-        "download_localhost": "False",
-        "download_cache_dir": ENV['HOME'] + "/kubespray_cache",
-
-        # Make kubespray cache even when download_run_once is false
-        "download_force_cache": $download_force_cache,
-
-        # Keeping the cache on the nodes can improve provisioning speed while debugging kubespray
-        "download_keep_remote_cache": "False",
-        "docker_rpm_keepcache": "1",
-
-        # These two settings will put kubectl and admin.config in $inventory/artifacts
-        "kubeconfig_localhost": "True",
-        "kubectl_localhost": "True",
         "ansible_ssh_user": SUPPORTED_OS[$os][:user]
       }
 
@@ -161,14 +142,15 @@ Vagrant.configure("2") do |config|
           ansible.become = true
           ansible.limit = "all,localhost"
           ansible.host_key_checking = false
-          ansible.raw_arguments = ["--forks=#{$num_instances}", "--flush-cache", "-e ansible_become_pass=vagrant"]
+          ansible.raw_arguments = ["--forks=#{$num_instances}", "--flush-cache", "-e kube_master_ip=172.18.8.101 ansible_become_pass=vagrant"]
           ansible.host_vars = host_vars
-          #ansible.tags = ['download']
+          ansible.tags = ['cluster']
           ansible.groups = {
-            "etcd" => ["#{$instance_name_prefix}-[1:#{$etcd_instances}]"],
             "kube-master" => ["#{$instance_name_prefix}-[1:#{$kube_master_instances}]"],
-            "kube-node" => ["#{$instance_name_prefix}-[1:#{$kube_node_instances}]"],
-            "k8s-cluster:children" => ["kube-master", "kube-node"],
+            "kube-node" => ["#{$instance_name_prefix}-[2:#{$kube_node_instances}]"],
+            "kube-cluster:children" => ["kube-master", "kube-node"],
+            "kube-master:vars" => ["kubernetes_role=master"],
+            "kube-node:vars" => ["kubernetes_role=node"]
           }
         end
       end

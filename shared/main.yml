@@ -12,10 +12,11 @@
           - wget
           - curl
           - vim
+          - htop
         state: present
       when: ansible_os_family == 'Debian'
 
-    - name: kubeadm
+    - name: Install kubeadm
       include_role:
         name: kubeadm
       vars:
