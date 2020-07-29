@@ -29,9 +29,8 @@
 > The playbook deploy um cluster Kubernetes on version `1.18`
 
 - Dependencies
-  - Ansible
-  - Virtualbox
-
+  - [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+  
 > Hardware requirements instances/VM's
 
 | Provider              |   Master/Worker Instance Type   |     Linux OS |
