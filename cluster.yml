@@ -8,7 +8,7 @@
         name: kubeadm
       vars:
         kubernetes_version: 1.18
-      when: cloud_provider == 'gcp'
+      when: provider == 'gcp'
   tags:
     - never
     - kubeadm
