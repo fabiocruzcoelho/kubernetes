@@ -72,7 +72,7 @@ kube-node2    Ready    <none>   157m   v1.18.6
 kube-node3    Ready    <none>   157m   v1.18.6
 ```
 
-```ShellSession
+```sh
 kubectl get po --all-namespaces -o wide
 NAMESPACE     NAME                                  READY   STATUS    RESTARTS   AGE    IP              NODE          NOMINATED NODE   READINESS GATES
 kube-system   coredns-66bff467f8-bt98x              1/1     Running   0          160m   10.244.1.2      kube-node3    <none>           <none>
