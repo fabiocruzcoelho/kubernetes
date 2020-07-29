@@ -23,11 +23,9 @@
   - [Virtualbox](https://www.virtualbox.org/wiki/Linux_Downloads)
   - [Vagrant](https://www.vagrantup.com/docs/installation)
 
-> For proper performance, a minimum is recommended below.
+> For proper performance, a minimum Hardware requirement is recommended.
 
-- Hardware requirements minimum
-
-| Processor |  RAM  |       HD |
+| Processor |  RAM  |    HD    |
 | --------- | :---: | -------: |
 | i5/i7     |  12G  | SSD 120G |
 
