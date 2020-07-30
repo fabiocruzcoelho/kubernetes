@@ -28,8 +28,8 @@
 
 > The playbook deploy um cluster Kubernetes on version `1.18`
 
-- Dependencies
-  - [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+- Prerequisites
+  - [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) >= v2.9.x
   
 > Hardware requirements instances/VM's
 
