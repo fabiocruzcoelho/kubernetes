@@ -1,0 +1,23 @@
+---
+- name: Create tmp directory
+  file:
+    path: "{{ tmp_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Check if Helm is installed
+  shell: command -v helm >/dev/null 2>&1
+  register: helm_exists
+  ignore_errors: yes
+
+- name: Install helm
+  block:
+    - name: Get helm installer v3
+      get_url:
+        url: "{{ helm_installer_url }}"
+        dest: "{{ tmp_dir }}"
+        mode: 0755
+
+    - name: Run the installer
+      shell: "{{ tmp_dir }}/get-helm-{{ helm_installer_version }}"
+  when: helm_exists.rc > 0

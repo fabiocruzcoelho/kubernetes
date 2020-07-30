@@ -35,3 +35,9 @@
 
 - include_tasks: setup-node.yml
   when: kubernetes_role == 'node'
+
+- name: "(Config: Additional features) Install helm"
+  include_tasks: "{{ role_path }}/tasks/helm/install.yml"
+  when:
+    - additional_features.helm | bool
+    - kubernetes_role == 'master'

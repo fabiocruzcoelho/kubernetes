@@ -27,3 +27,14 @@
   tags:
     - never
     - cluster
+
+- hosts: kube-master
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Install additional features
+      include_role:
+        name: kube-cluster
+  tags:
+    - never
+    - features
