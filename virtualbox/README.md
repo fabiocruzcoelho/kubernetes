@@ -19,9 +19,9 @@
 > To implement the local kubernetes cluster, the following requirements are required.
 
 - Prerequisites
-  - [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
-  - [Virtualbox](https://www.virtualbox.org/wiki/Linux_Downloads)
-  - [Vagrant](https://www.vagrantup.com/docs/installation)
+  - [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) >= v2.9.x
+  - [Virtualbox](https://www.virtualbox.org/wiki/Linux_Downloads) >= v5.2.x
+  - [Vagrant](https://www.vagrantup.com/docs/installation) >= v2.2.x
 
 > For proper performance, a minimum Hardware requirement is recommended.
 
