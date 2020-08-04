@@ -28,7 +28,7 @@
     - never
     - cluster
 
-- hosts: kube-master
+- hosts: kube-master[0]
   become: yes
   gather_facts: yes
   tasks:
