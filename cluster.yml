@@ -19,7 +19,7 @@
   tasks:
     - name: Initialize cluster
       include_role:
-        name: kube-cluster
+        name: kubernetes
       vars:
         kubernetes_version: 1.18
         kubernetes_allow_pods_on_master: true
@@ -34,7 +34,7 @@
   tasks:
     - name: Install additional features
       include_role:
-        name: kube-cluster
+        name: kubernetes
   tags:
     - never
     - features

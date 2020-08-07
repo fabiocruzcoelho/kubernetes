@@ -14,10 +14,10 @@
   block:
     - name: Get helm installer v3
       get_url:
-        url: "{{ helm_installer_url }}"
+        url: "{{ kubernetes_helm_installer_file }}"
         dest: "{{ tmp_dir }}"
         mode: 0755
 
     - name: Run the installer
-      shell: "{{ tmp_dir }}/get-helm-{{ helm_installer_version }}"
+      shell: "{{ tmp_dir }}/get-helm-{{ kubernetes_helm_version }}"
   when: helm_exists.rc > 0

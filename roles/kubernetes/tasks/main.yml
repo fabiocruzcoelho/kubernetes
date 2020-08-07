@@ -37,5 +37,5 @@
   when: kubernetes_role == 'node'
 
 - name: "(Config: Additional features) Install helm"
-  include_tasks: "{{ role_path }}/tasks/features/setup-helm.yml"
+  include_tasks: "{{ role_path }}/tasks/features/helm/setup-helm.yml"
   when: additional_features.helm | bool
