@@ -1,10 +1,11 @@
 ---
-- hosts: envoy
+- name: Install Envoy Proxy
+  hosts: envoy
   gather_facts: yes
   become: yes
 
   tasks:
-    - name: Install Envoy Proxy
+    - name: Envoy Proxy
       include_role:
         name: envoy
   tags:
