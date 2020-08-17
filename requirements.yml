@@ -1,3 +1,6 @@
 ---
 - name: kubeadm
   src: fabiocruzcoelho.kubeadm
+
+- name: envoy
+  src: fabiocruzcoelho.envoyproxy

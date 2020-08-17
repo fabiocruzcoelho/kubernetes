@@ -1,4 +1,3 @@
 ---
-# kube-cluster role related vars
-# defined cloud_provider
-provider: ''
+# Cloud providers options
+cloud_provider: false

@@ -30,7 +30,8 @@
 
 - Prerequisites
   - [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) >= v2.9.x
-  
+  - [Community.kubernetes](https://github.com/ansible-collections/community.kubernetes) >= v1.0.0
+
 > Hardware requirements instances/VM's
 
 | Provider              |   Master/Worker Instance Type   |     Linux OS |

@@ -1,40 +1,47 @@
 ---
-- hosts: kube-cluster
+- name: Install kubeadm packages
+  hosts: kube-cluster
   become: yes
   gather_facts: yes
+  vars:
+    cloud_provider: true
   tasks:
-    - name: Install kubeadm
+    - name: kubeadm
       include_role:
         name: kubeadm
       vars:
         kubernetes_version: 1.18
-      when: provider == 'gcp'
+      when: cloud_provider | bool
   tags:
     - never
     - kubeadm
 
-- hosts: kube-cluster
+- name: Initialize cluster kubernetes
+  hosts: kube-cluster
   become: yes
   gather_facts: yes
   tasks:
-    - name: Initialize cluster
+    - name: Initialize
       include_role:
         name: kubernetes
       vars:
         kubernetes_version: 1.18
-        kubernetes_allow_pods_on_master: true
+        kubernetes_allow_pods_on_master: false
         kubernetes_apiserver_advertise_address: "{{ kube_master_ip }}"
   tags:
     - never
     - cluster
 
-- hosts: kube-master[0]
+- name: Install additional features
+  hosts: masters[0]
   become: yes
   gather_facts: yes
   tasks:
-    - name: Install additional features
+    - name: features
       include_role:
         name: kubernetes
+      vars:
+        kubernetes_features_enabled: true
   tags:
     - never
     - features

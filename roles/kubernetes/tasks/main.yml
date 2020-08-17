@@ -37,5 +37,9 @@
   when: kubernetes_role == 'node'
 
 - name: "(Config: Additional features) Install helm"
-  include_tasks: "{{ role_path }}/tasks/features/helm/setup-helm.yml"
-  when: additional_features.helm | bool
+  include_tasks: "{{ role_path }}/tasks/features/tools/setup-helm.yml"
+  when: kubernetes_features_enabled | bool
+
+- name: "(Config: Additional features) Deploy contour"
+  include_tasks: "{{ role_path }}/tasks/features/ingress-controller/setup-contour.yml"
+  when: kubernetes_features_enabled | bool
