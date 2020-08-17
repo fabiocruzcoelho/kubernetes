@@ -25,7 +25,7 @@ SHELL:=/bin/bash
 ##
 playbook   ?= setup
 roles_path ?= "roles/"
-env        ?= inventory/hosts
+env        ?= inventory/k8s.yml
 mkfile_dir ?= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 ifeq ("$(wildcard $(mkfile_dir)pass.sh)", "")
   opts     ?= $(args)
