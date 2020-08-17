@@ -46,16 +46,16 @@ git clone https://gitlab.com/estudosdevops/kubernetes.git
 
 ## Usage
 
-> With the instances or VMs created and properly configured, and the inventory configured according to the [sample.ini](https://gitlab.com/estudosdevops/kubernetes/-/blob/master/inventory/sample.ini)
+> With the instances or VMs created and properly configured, and the inventory configured according to the [sample.yml](https://gitlab.com/estudosdevops/kubernetes/-/blob/master/inventory/sample.yml)
 
 ```sh
 # Example of usage with instance GCP, AWS
-make run playbook=cluster  env=inventory/sample.ini args='-e "provider=<cloud_name> kube_master_ip=<ipaddress>"' tag=kubeadm,cluster
+make run playbook=cluster  env=inventory/sample.yml args='-e "kube_master_ip=<ipaddress>"' tag=kubeadm,cluster
 ```
 
 ```sh
 # Example of usage with VM's (In test)
-make run playbook=cluster  env=inventory/sample.ini args='-e "provider=<vmware> kube_master_ip=<ipaddress>"' tag=kubeadm,cluster
+make run playbook=cluster  env=inventory/sample.yml args='-e "kube_master_ip=<ipaddress>"' tag=kubeadm,cluster
 ```
 
 ## Run tests
@@ -63,7 +63,7 @@ make run playbook=cluster  env=inventory/sample.ini args='-e "provider=<vmware> 
 > To test the playbook you can run a dry-run first.
 
 ```sh
-make dry-run playbook=cluster  env=inventory/sample.ini args='-e "provider=<provider_name> kube_master_ip=<ipaddress>"' tag=kubeadm,cluster
+make dry-run playbook=cluster  env=inventory/sample.yml args='-e "kube_master_ip=<ipaddress>"' tag=kubeadm,cluster
 ```
 
 ```sh
