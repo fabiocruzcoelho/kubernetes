@@ -7,7 +7,7 @@
 
 - name: Check if Helm is installed
   shell: command -v helm >/dev/null 2>&1
-  register: helm_exists
+  register: helm_installed
   ignore_errors: yes
 
 - name: Install helm
@@ -20,4 +20,12 @@
 
     - name: Run the installer
       shell: "{{ tmp_dir }}/get-helm-{{ kubernetes_helm_version }}"
-  when: helm_exists.rc > 0
+  when: helm_installed.rc > 0
+
+- name: Add helm chart's repository.
+  community.kubernetes.helm_repository:
+    name: "{{ item.name }}"
+    repo_url: "{{ item.repo_url }}"
+  loop:
+    - { name: "bitnami", repo_url: "{{ kubernetes_helm_chart_bitnami_url }}" }
+    - { name: "stable", repo_url: "{{ kubernetes_helm_chart_stable_url }}" }
