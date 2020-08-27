@@ -4,6 +4,7 @@ all:
     ansible_ssh_user: fabio
     ansible_ssh_private_key_file: "~/.ssh/id_rsa"
     ansible_python_interpreter: /usr/bin/python3
+    cert_manager_acme_email: ansible@ansible.com
   children:
     kube-cluster:
       children:
@@ -11,13 +12,14 @@ all:
           vars:
             kubernetes_role: master
           hosts:
-            34.95.147.168:
+            35.199.92.95:
         nodes:
           vars:
             kubernetes_role: node
           hosts:
-            34.95.156.77:
-            34.95.136.163:
-    envoy:
+            35.199.122.201:
+            35.198.24.219:
+    front-proxy:
       hosts:
-        35.198.16.234:
+        envoy:
+          ansible_host: 35.247.215.203
