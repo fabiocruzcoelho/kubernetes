@@ -41,6 +41,7 @@
       include_role:
         name: kubernetes
       vars:
+        kubernetes_cert_manager_test_resources: false
         kubernetes_features_enabled: true
   tags:
     - never

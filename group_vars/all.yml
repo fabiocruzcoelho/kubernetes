@@ -1,3 +1,6 @@
 ---
+# Vars global
+domain: klabs.tk
+
 # Cloud providers options
 cloud_provider: false

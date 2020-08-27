@@ -2,6 +2,7 @@
 *.retry
 apt.yml
 dev.yml
+k8s.yml
 vagrant-box.yml
 gcloud.ini
 gcloud

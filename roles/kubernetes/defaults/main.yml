@@ -37,6 +37,10 @@ kubernetes_helm_installer_file: https://raw.githubusercontent.com/helm/helm/mast
 kubernetes_helm_chart_stable_url: https://kubernetes-charts.storage.googleapis.com
 kubernetes_helm_chart_bitnami_url: https://charts.bitnami.com/bitnami
 
+# Cert-mangar config files.
+kubernetes_cert_manager_chart_url: https://charts.jetstack.io
+kubernetes_cert_manager_test_resources: true
+
 # Additional feature to install on cluster. Only applies if features is `true`.
 kubernetes_features_enabled: false
 
