@@ -43,3 +43,11 @@
 - name: "(Config: Additional features) Deploy contour"
   include_tasks: "{{ role_path }}/tasks/features/ingress-controller/setup-contour.yml"
   when: kubernetes_features_enabled | bool
+
+- name: "(Config: Additional features) Deploy cert-manager"
+  include_tasks: "{{ role_path }}/tasks/features/cert-manager/setup-cert-manager.yml"
+  when: kubernetes_features_enabled | bool
+
+- name: "(Config: Additional features) Deploy app example"
+  include_tasks: "{{ role_path }}/tasks/features/deployments/setup-app-hello-k8s.yml"
+  when: kubernetes_features_enabled | bool

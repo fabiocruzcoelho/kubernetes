@@ -29,3 +29,4 @@
   loop:
     - { name: "bitnami", repo_url: "{{ kubernetes_helm_chart_bitnami_url }}" }
     - { name: "stable", repo_url: "{{ kubernetes_helm_chart_stable_url }}" }
+    - { name: "jetstack", repo_url: "{{ kubernetes_cert_manager_chart_url }}" }
