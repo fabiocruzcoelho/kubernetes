@@ -19,6 +19,10 @@
     - { src: cert-manage-test-resources.yaml.j2, dest: "{{ tmp_dir }}/test-resources.yaml" }
     - { src: cert-manage-issuer-stg.yaml.j2, dest: "{{ tmp_dir }}/issue-prd.yaml" }
     - { src: cert-manage-issuer-prd.yaml.j2, dest: "{{ tmp_dir }}/issue-stg.yaml" }
+    - { src: cert-manager-secret-tls.yaml.j2, dest: "{{ tmp_dir }}/secret-tls.yaml" }
+
+  register: secret_result
+  changed_when: "'created' in secret_result"
 
 - name: Create an Issuer to test the webhook works okay.
   command: "{{ item }}"
@@ -30,10 +34,29 @@
   changed_when: "'created' in test_resources_result"
   when: kubernetes_cert_manager_test_resources | bool
 
-- name: Configure a basic issuers stg, prd
+- name: Configure SSL wildcard issuers stg, prd
   command: "{{ item }}"
   loop:
+    - kubectl apply -f {{ tmp_dir }}/secret-tls.yaml
     - kubectl apply -f {{ tmp_dir }}/issue-stg.yaml
     - kubectl apply -f {{ tmp_dir }}/issue-prd.yaml
   register: issues_result
   changed_when: "'created' in issues_result"
+
+- name: Install kubed with Helm.
+  community.kubernetes.helm:
+    name: kubed
+    chart_ref: appscode/kubed
+    # chart_version: stable
+    release_namespace: kube-system
+    create_namespace: true
+    values:
+     apiserver:
+      enabled: false
+     config:
+      clusterName: klabs
+
+# - name: Annotate secret letsencrypt-prod with kubed
+#   command: kubectl annotate secret letsencrypt-prod -n cert-manager kubed.appscode.com/sync="app=kubed"
+#   register: annotate_result
+#   changed_when: "'created' in annotate_result"

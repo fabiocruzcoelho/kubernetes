@@ -5,6 +5,7 @@ all:
     ansible_ssh_private_key_file: "~/.ssh/id_rsa"
     ansible_python_interpreter: /usr/bin/python3
     cert_manager_acme_email: estudosdevops2019@gmail.com
+    cloudflare_api_key: ea33885f9982f34743d9f79d678e50beb2d19
   children:
     kube-cluster:
       children:
@@ -12,14 +13,14 @@ all:
           vars:
             kubernetes_role: master
           hosts:
-            35.247.215.203:
+            35.199.68.205:
         nodes:
           vars:
             kubernetes_role: node
           hosts:
-            35.199.122.201:
-            35.199.92.95:
+            34.95.164.147:
+            34.95.221.70:
     front-proxy:
       hosts:
         envoy:
-          ansible_host: 35.198.24.219
+          ansible_host: 34.95.201.162
