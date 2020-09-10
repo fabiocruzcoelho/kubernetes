@@ -31,6 +31,8 @@
         DRONE_RPC_SECRET: "{{ drone_ci_rpc_secret }}"
         DRONE_GITHUB_CLIENT_ID: "{{ drone_ci_github_client_id }}"
         DRONE_GITHUB_CLIENT_SECRET: "{{ drone_ci_github_cliente_secret }}"
+        DRONE_USER_CREATE: username:fabiocruzcoelho,admin:true
+        DRONE_USER_FILTER: estudosdevops
 
 - name: Install drone runner kube with Helm.
   community.kubernetes.helm:
@@ -60,6 +62,7 @@
         buildNamespaces:
           - drone-ci
       env:
+        DRONE_RUNNER_CAPACITY: 5
         DRONE_SERVER_HOST: "drone-ci.{{ domain }}"
         DRONE_SERVER_PROTO: https
         DRONE_RPC_SECRET: "{{ drone_ci_rpc_secret }}"

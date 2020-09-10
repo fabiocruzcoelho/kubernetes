@@ -13,13 +13,13 @@ all:
           vars:
             kubernetes_role: master
           hosts:
-            34.95.201.162:
+            35.199.91.250:
         nodes:
           vars:
             kubernetes_role: node
           hosts:
-            35.199.91.250:
             35.199.68.205:
+            34.95.201.162:
     front-proxy:
       hosts:
         envoy:
