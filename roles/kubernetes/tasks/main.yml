@@ -52,6 +52,6 @@
   include_tasks: "{{ role_path }}/tasks/features/deployments/setup-app-hello-k8s.yml"
   when: kubernetes_features_enabled | bool
 
-- name: "(Config: Additional features) Deploy "
+- name: "(Config: Additional features) Deploy drone-ci"
   include_tasks: "{{ role_path }}/tasks/features/drone-ci/setup-drone-ci.yml"
   when: kubernetes_features_enabled | bool
