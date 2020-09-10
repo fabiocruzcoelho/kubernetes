@@ -41,6 +41,10 @@ kubernetes_helm_chart_bitnami_url: https://charts.bitnami.com/bitnami
 kubernetes_cert_manager_chart_url: https://charts.jetstack.io
 kubernetes_appscode_chart_url: https://charts.appscode.com/stable/
 kubernetes_cert_manager_test_resources: true
+kubernetes_cert_manager_issuer_prd: klabs-com-tls-prod
+
+# Drone-ci config files.
+kubernetes_drone_chart_url: https://charts.drone.io
 
 # Additional feature to install on cluster. Only applies if features is `true`.
 kubernetes_features_enabled: false

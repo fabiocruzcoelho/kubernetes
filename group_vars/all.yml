@@ -4,3 +4,8 @@ domain: klabs.tk
 
 # Cloud providers options
 cloud_provider: false
+
+# Drone CI vars
+drone_ci_github_client_id: ea81dd4686cdb74e0366
+drone_ci_github_cliente_secret: 96f5d78fbc6fa8e08cf21081cb876508a7877849
+drone_ci_rpc_secret: 5fc34b5b47fcd7bcb11c875e016709e8

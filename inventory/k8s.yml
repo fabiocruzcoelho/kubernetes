@@ -13,14 +13,14 @@ all:
           vars:
             kubernetes_role: master
           hosts:
-            35.199.68.205:
+            34.95.201.162:
         nodes:
           vars:
             kubernetes_role: node
           hosts:
-            34.95.164.147:
-            34.95.221.70:
+            35.199.91.250:
+            35.199.68.205:
     front-proxy:
       hosts:
         envoy:
-          ansible_host: 34.95.201.162
+          ansible_host: 34.95.164.147

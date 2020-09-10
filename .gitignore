@@ -57,3 +57,5 @@ crash.log
 # For built boxes
 *.box
 inventory/k8s.yml
+roles/kubernetes/templates/drone-runner-kube-values.yaml.j2
+roles/kubernetes/templates/drone-server-values.yaml.j2

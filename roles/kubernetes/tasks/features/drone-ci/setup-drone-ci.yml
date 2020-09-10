@@ -1,0 +1,66 @@
+---
+- name: Install drone with Helm.
+  community.kubernetes.helm:
+    name: drone
+    chart_ref: drone/drone
+    release_namespace: drone-ci
+    create_namespace: true
+    values:
+      service:
+        type: ClusterIP
+        port: 80
+      ingress:
+        enabled: true
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          ingress.kubernetes.io/force-ssl-redirect: "true"
+          kubernetes.io/tls-acme: "true"
+        hosts:
+          - host: drone-ci.{{ domain }}
+            paths:
+              - "/"
+        tls:
+          - secretName: "{{ kubernetes_cert_manager_issuer_prd }}"
+            hosts:
+              - drone-ci.{{ domain }}
+      persistentVolume:
+        enabled: false
+      env:
+        DRONE_SERVER_HOST: "drone-ci.{{ domain }}"
+        DRONE_SERVER_PROTO: https
+        DRONE_RPC_SECRET: "{{ drone_ci_rpc_secret }}"
+        DRONE_GITHUB_CLIENT_ID: "{{ drone_ci_github_client_id }}"
+        DRONE_GITHUB_CLIENT_SECRET: "{{ drone_ci_github_cliente_secret }}"
+
+- name: Install drone runner kube with Helm.
+  community.kubernetes.helm:
+    name: drone-runner-kube
+    chart_ref: drone/drone-runner-kube
+    release_namespace: drone-ci
+    create_namespace: true
+    values:
+      service:
+        type: ClusterIP
+        port: 3000
+      ingress:
+        enabled: true
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          ingress.kubernetes.io/force-ssl-redirect: "true"
+          kubernetes.io/tls-acme: "true"
+        hosts:
+          - host: drone-runner.{{ domain }}
+            paths:
+              - "/"
+        tls:
+          - secretName: "{{ kubernetes_cert_manager_issuer_prd }}"
+            hosts:
+              - drone-runner.{{ domain }}
+      rbac:
+        buildNamespaces:
+          - drone-ci
+      env:
+        DRONE_SERVER_HOST: "drone-ci.{{ domain }}"
+        DRONE_SERVER_PROTO: https
+        DRONE_RPC_SECRET: "{{ drone_ci_rpc_secret }}"
+        DRONE_NAMESPACE_DEFAULT: drone-ci

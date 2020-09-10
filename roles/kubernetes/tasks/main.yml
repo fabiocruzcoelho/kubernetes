@@ -51,3 +51,7 @@
 - name: "(Config: Additional features) Deploy app example"
   include_tasks: "{{ role_path }}/tasks/features/deployments/setup-app-hello-k8s.yml"
   when: kubernetes_features_enabled | bool
+
+- name: "(Config: Additional features) Deploy "
+  include_tasks: "{{ role_path }}/tasks/features/drone-ci/setup-drone-ci.yml"
+  when: kubernetes_features_enabled | bool
