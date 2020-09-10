@@ -2,7 +2,7 @@
 - name: Copy template apps hello-k8s
   template:
     src: "{{ item.src }}"
-    dest: "{{ item.dest}}"
+    dest: "{{ item.dest }}"
     owner: root
     group: root
   loop:

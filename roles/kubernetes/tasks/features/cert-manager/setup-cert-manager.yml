@@ -12,7 +12,7 @@
 - name: Copy template test resources
   template:
     src: "{{ item.src }}"
-    dest: "{{ item.dest}}"
+    dest: "{{ item.dest }}"
     owner: root
     group: root
   loop:
