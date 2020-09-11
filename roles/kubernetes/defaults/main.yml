@@ -33,6 +33,9 @@ kubernetes_calico_manifest_file: https://docs.projectcalico.org/v3.10/manifests/
 kubernetes_helm_version: 3
 kubernetes_helm_installer_file: https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-{{ kubernetes_helm_version }}
 
+# Helm chartcenter.
+kubernetes_chartcenter_url: https://repo.chartcenter.io
+
 # Helm charts who will be installed to the kubernetes cluster.
 kubernetes_helm_chart_stable_url: https://kubernetes-charts.storage.googleapis.com
 kubernetes_helm_chart_bitnami_url: https://charts.bitnami.com/bitnami
