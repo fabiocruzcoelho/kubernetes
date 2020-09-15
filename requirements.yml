@@ -4,3 +4,6 @@
 
 - name: envoy
   src: fabiocruzcoelho.envoyproxy
+
+- name: nfs
+  src: geerlingguy.nfs

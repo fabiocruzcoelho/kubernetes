@@ -24,7 +24,9 @@
             hosts:
               - drone-ci.{{ domain }}
       persistentVolume:
-        enabled: false
+        enabled: true
+        storageClass: nfs-client
+        mountPath: /kube-data
       env:
         DRONE_SERVER_HOST: "drone-ci.{{ domain }}"
         DRONE_SERVER_PROTO: https
