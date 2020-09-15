@@ -1,0 +1,11 @@
+---
+- name: Install nfs-client provisioner with Helm.
+  community.kubernetes.helm:
+    name: nfs-client
+    chart_ref: center/stable/nfs-client-provisioner
+    release_namespace: defalut
+    create_namespace: true
+    values:
+      nfs:
+        server: "34.66.146.127"
+        path: /kube-data

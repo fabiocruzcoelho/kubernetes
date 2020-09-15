@@ -1,0 +1,21 @@
+---
+- name: NFS server
+  hosts: nfs
+  gather_facts: yes
+  become: yes
+
+  tasks:
+    - name: Ensure directory kube-data exists.
+      file:
+        path: /kube-data
+        state: directory
+        mode: '0755'
+
+    - name: Install nfs server
+      include_role:
+        name: nfs
+      vars:
+        nfs_exports: [ "/kube-data *(rw,sync,no_root_squash)" ]
+  tags:
+    - never
+    - nfs
