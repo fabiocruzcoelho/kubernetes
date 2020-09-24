@@ -7,5 +7,5 @@
     create_namespace: true
     values:
       nfs:
-        server: "34.66.146.127"
+        server: "{{ nfs_server_address }}"
         path: /kube-data
