@@ -1,45 +1,38 @@
 ---
-apiVersion: cert-manager.io/v1alpha2
-kind: Issuer
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
 metadata:
   name: letsencrypt-staging
   namespace: cert-manager
 spec:
   acme:
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
     email: {{ cert_manager_acme_email }}
-
-    # Name of a secret used to store the ACME account private key
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-staging
-
-    # ACME DNS-01 provider configurations
     solvers:
-    # We only use cloudflare to solve challenges for example.org.
-    # Alternative options such as 'matchLabels' and 'dnsZones' can be specified
-    # as part of a solver's selector too.
-    - selector:
-        dnsNames:
-        - '*.{{ domain }}'
-      dns01:
-        cloudflare:
-          email: {{ cert_manager_acme_email }}
-          # !! Remember to create a k8s secret before
-          # kubectl create secret generic cloudflare-api-key-secret
-          apiKeySecretRef:
-            name: cloudflare-api-key-secret
-            key: api-key
-
+    - dns01:
+        cloudDNS:
+          # The ID of the GCP project
+          project: {{ gcp_project_id }}
+          # This is the secret used to access the service account
+          serviceAccountSecretRef:
+          # Set up a Service Account
+          # Look: https://cert-manager.io/docs/configuration/acme/dns01/google/
+            name: {{ kubernetes_cert_manager_secret_name }}
+            key: key.json
 ---
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: klabs-com-stg
+  name: klabs-com-staging
   namespace: cert-manager
 spec:
-  secretName: klabs-com-tls-stg
+  secretName: klabs-com-staging-tls
   issuerRef:
     name: letsencrypt-staging
+    kind: ClusterIssuer
+  commonName: "*.{{ domain }}"
   dnsNames:
-  - '*.{{ domain }}'
-
+  - "*.{{ domain }}"
+---

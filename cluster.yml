@@ -20,14 +20,16 @@
   hosts: kube-cluster
   become: yes
   gather_facts: yes
+  vars:
+    kube_master_ip_local: 10.158.0.8
   tasks:
     - name: Initialize
       include_role:
         name: kubernetes
       vars:
         kubernetes_version: 1.18
-        kubernetes_allow_pods_on_master: false
-        kubernetes_apiserver_advertise_address: "{{ kube_master_ip }}"
+        kubernetes_allow_pods_on_master: true
+        kubernetes_apiserver_advertise_address: "{{ kube_master_ip_local }}"
   tags:
     - never
     - cluster

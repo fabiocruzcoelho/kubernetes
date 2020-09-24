@@ -8,7 +8,7 @@
   loop:
     - { src: app-example-hello.yaml.j2, dest: "{{ tmp_dir }}/app-example-hello.yaml" }
 
-- name: Configure a basic issuers stg, prd
+- name: Configure apps hello word k8s
   command: "{{ item }}"
   loop:
     - kubectl apply -f {{ tmp_dir }}/app-example-hello.yaml

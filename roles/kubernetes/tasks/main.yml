@@ -1,6 +1,11 @@
 ---
 - include_tasks: setup-kubelet.yml
 
+- name: Install nfs-common for storageclass nfs
+  apt:
+    name: nfs-common
+    state: present
+
 - name: Ensure kubelet is started and enabled at boot.
   service:
     name: kubelet
@@ -52,6 +57,14 @@
   include_tasks: "{{ role_path }}/tasks/features/deployments/setup-app-hello-k8s.yml"
   when: kubernetes_features_enabled | bool
 
+- name: "(Config: Additional features) Deploy storageclass nfs client"
+  include_tasks: "{{ role_path }}/tasks/features/storageclass/setup-nfs-client.yml"
+  when: kubernetes_features_enabled | bool
+
 - name: "(Config: Additional features) Deploy drone-ci"
   include_tasks: "{{ role_path }}/tasks/features/drone-ci/setup-drone-ci.yml"
+  when: kubernetes_features_enabled | bool
+
+- name: "(Config: Additional features) Deploy EFK"
+  include_tasks: "{{ role_path }}/tasks/features/monitoring/setup-efk.yml"
   when: kubernetes_features_enabled | bool

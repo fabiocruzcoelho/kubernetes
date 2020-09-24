@@ -2,7 +2,7 @@
 - name: Install contour with Helm.
   community.kubernetes.helm:
     name: contour
-    chart_ref: bitnami/contour
+    chart_ref: center/bitnami/contour
     release_namespace: ingress
     create_namespace: true
     values:

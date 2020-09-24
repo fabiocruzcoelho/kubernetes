@@ -5,6 +5,7 @@ all:
     ansible_ssh_private_key_file: "~/.ssh/id_rsa"
     ansible_python_interpreter: /usr/bin/python3
     cert_manager_acme_email: ansible@ansible.com
+    nfs_server_address: 10.158.15.222
   children:
     kube-cluster:
       children:
@@ -12,14 +13,18 @@ all:
           vars:
             kubernetes_role: master
           hosts:
-            35.199.92.95:
+            34.95.201.162:
         nodes:
           vars:
             kubernetes_role: node
           hosts:
-            35.199.122.201:
-            35.198.24.219:
+            35.199.111.58:
+            35.247.252.235:
     front-proxy:
       hosts:
         envoy:
-          ansible_host: 35.247.215.203
+          ansible_host: 35.226.200.152
+    nfs-server:
+      hosts:
+        nfs:
+          ansible_host: 35.247.213.113

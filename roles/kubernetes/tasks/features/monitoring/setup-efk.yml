@@ -1,0 +1,56 @@
+---
+- name: Copy templates EFK
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+  loop:
+    - { src: kube-logging.yaml.j2, dest: "{{ tmp_dir }}/kube-logging.yaml" }
+    - { src: elasticsearch.yaml.j2, dest: "{{ tmp_dir }}/elasticsearch.yaml" }
+    - { src: kibana.yaml.j2, dest: "{{ tmp_dir }}/kibana.yaml" }
+    - { src: filebeat.yaml.j2, dest: "{{ tmp_dir }}/filebeat.yaml" }
+    - { src: metricbeat.yaml.j2, dest: "{{ tmp_dir }}/metricbeat.yaml" }
+    - { src: kube-state-metrics.yaml.j2, dest: "{{ tmp_dir }}/kube-state-metrics.yaml" }
+
+- name: Create namespace kube-logging.
+  command: "{{ item }}"
+  loop:
+    - kubectl apply -f {{ tmp_dir }}/kube-logging.yaml
+  register: namespace_result
+  changed_when: "'created' in namespace_result"
+
+- name: Configure elasticsearch.
+  command: "{{ item }}"
+  loop:
+    - kubectl apply -f {{ tmp_dir }}/elasticsearch.yaml
+  register: elasticsearch_result
+  changed_when: "'created' in elasticsearch_result"
+
+- name: Configure kibana.
+  command: "{{ item }}"
+  loop:
+    - kubectl apply -f {{ tmp_dir }}/kibana.yaml
+  register: kibana_result
+  changed_when: "'created' in kibana_result"
+
+- name: Configure filebeat.
+  command: "{{ item }}"
+  loop:
+    - kubectl apply -f {{ tmp_dir }}/filebeat.yaml
+  register: filebeat_result
+  changed_when: "'created' in filebeat_result"
+
+- name: Configure metricbeat.
+  command: "{{ item }}"
+  loop:
+    - kubectl apply -f {{ tmp_dir }}/metricbeat.yaml
+  register: metricbeat_result
+  changed_when: "'created' in metricbeat_result"
+
+- name: Configure kube-state-metrics.
+  command: "{{ item }}"
+  loop:
+    - kubectl apply -f {{ tmp_dir }}/kube-state-metrics.yaml
+  register: kube_state_metrics_result
+  changed_when: "'created' in kube_state_metrics_result"

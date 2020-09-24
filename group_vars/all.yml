@@ -1,6 +1,7 @@
 ---
 # Vars global
 domain: klabs.tk
+gcp_project_id: devopsestudos
 
 # Cloud providers options
 cloud_provider: false

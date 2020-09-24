@@ -2,42 +2,37 @@
 - name: Install cert-manager with Helm.
   community.kubernetes.helm:
     name: cert-manager
-    chart_ref: jetstack/cert-manager
-    chart_version: v0.16.1
+    chart_ref: center/jetstack/cert-manager
     release_namespace: cert-manager
     create_namespace: true
     values:
       installCRDs: true
 
-- name: Copy template test resources
+- name: Waiting for deployment cert-manager to be ready
+  command: kubectl rollout status deployment/cert-manager -n cert-manager
+
+- name: Copy templates cert-manager
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: root
     group: root
   loop:
-    - { src: cert-manage-test-resources.yaml.j2, dest: "{{ tmp_dir }}/test-resources.yaml" }
-    - { src: cert-manage-issuer-stg.yaml.j2, dest: "{{ tmp_dir }}/issue-prd.yaml" }
-    - { src: cert-manage-issuer-prd.yaml.j2, dest: "{{ tmp_dir }}/issue-stg.yaml" }
-    - { src: cert-manager-secret-tls.yaml.j2, dest: "{{ tmp_dir }}/secret-tls.yaml" }
+    - { src: cert-manager-gpc-secret-key.json.j2, dest: "{{ tmp_dir }}/key.json" }
+    - { src: cert-manage-issuer-stg.yaml.j2, dest: "{{ tmp_dir }}/issue-stg.yaml" }
+    - { src: cert-manage-issuer-prd.yaml.j2, dest: "{{ tmp_dir }}/issue-prd.yaml" }
 
+- name: Check if secret clouddns-dns01-solver-svc-acct exist
+  command: kubectl get secret {{ kubernetes_cert_manager_secret_name }} -n cert-manager
   register: secret_result
-  changed_when: "'created' in secret_result"
 
-- name: Create an Issuer to test the webhook works okay.
-  command: "{{ item }}"
-  loop:
-    - kubectl apply -f {{ tmp_dir }}/test-resources.yaml
-    - kubectl describe certificate -n cert-manager-test
-    - kubectl delete -f {{ tmp_dir }}/test-resources.yaml
-  register: test_resources_result
-  changed_when: "'created' in test_resources_result"
-  when: kubernetes_cert_manager_test_resources | bool
+- name: Set up a Service Account CloudDNS (GCP)
+  command: kubectl create secret generic {{ kubernetes_cert_manager_secret_name }} --from-file="{{ tmp_dir }}/key.json" -n cert-manager
+  when: secret_result.rc != 0
 
 - name: Configure SSL wildcard issuers stg, prd
   command: "{{ item }}"
   loop:
-    - kubectl apply -f {{ tmp_dir }}/secret-tls.yaml
     - kubectl apply -f {{ tmp_dir }}/issue-stg.yaml
     - kubectl apply -f {{ tmp_dir }}/issue-prd.yaml
   register: issues_result
@@ -46,8 +41,8 @@
 - name: Install kubed with Helm.
   community.kubernetes.helm:
     name: kubed
-    chart_ref: appscode/kubed
-    # chart_version: stable
+    chart_ref: center/appscode/kubed
+    chart_version: v0.12.0
     release_namespace: kube-system
     create_namespace: true
     values:
