@@ -1,7 +1,6 @@
 ---
 # Vars global
 domain: klabs.tk
-gcp_project_id: devopsestudos
 
 # Cloud providers options
 cloud_provider: false
@@ -10,3 +9,11 @@ cloud_provider: false
 drone_ci_github_client_id: d4ec4863bcdb13f68cf0
 drone_ci_github_cliente_secret: 476265a14be82713df7faba1625f9b36af6248cd
 drone_ci_rpc_secret: 5fc34b5b47fcd7bcb11c875e016709e8
+
+# Letsencrypt wildcard certificate
+gcp_project_id: devopsestudos
+gcp_serviceaccount_name: clouddns-dns01-solver-svc-acct
+letsencrypt_issuer_stg: letsencrypt-staging
+letsencrypt_issuer_prod: letsencrypt-production
+letsencrypt_certificate_name_prod: klabs-com-production
+letsencrypt_certificate_name_stg: klabs-com-staging

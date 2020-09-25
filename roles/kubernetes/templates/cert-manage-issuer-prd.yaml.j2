@@ -2,14 +2,14 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-production
+  name: {{ letsencrypt_issuer_prod }}
   namespace: cert-manager
 spec:
   acme:
     email: {{ cert_manager_acme_email }}
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt-production
+      name: {{ letsencrypt_issuer_prod }}
     solvers:
     - dns01:
         cloudDNS:
@@ -19,18 +19,18 @@ spec:
           serviceAccountSecretRef:
           # Set up a Service Account
           # Look: https://cert-manager.io/docs/configuration/acme/dns01/google/
-            name: {{ kubernetes_cert_manager_secret_name }}
+            name: {{ gcp_serviceaccount_name }}
             key: key.json
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: klabs-com-production
+  name: {{ letsencrypt_certificate_name_prod }}
   namespace: cert-manager
 spec:
-  secretName: klabs-com-production-tls
+  secretName: {{ letsencrypt_certificate_name_prod }}-tls
   issuerRef:
-    name: letsencrypt-production
+    name: {{ letsencrypt_issuer_prod }}
     kind: ClusterIssuer
   commonName: "*.{{ domain }}"
   dnsNames:

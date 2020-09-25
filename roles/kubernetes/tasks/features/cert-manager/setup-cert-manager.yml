@@ -51,7 +51,9 @@
      config:
       clusterName: klabs
 
-# - name: Annotate secret letsencrypt-prod with kubed
-#   command: kubectl annotate secret letsencrypt-prod -n cert-manager kubed.appscode.com/sync="app=kubed"
-#   register: annotate_result
-#   changed_when: "'created' in annotate_result"
+- name: Annotate wildcard secret on namespoace cert-manager with kubed
+  command: "{{ item }}"
+  loop:
+    - kubectl annotate secret {{ letsencrypt_certificate_name_stg }}-tls -n cert-manager kubed.appscode.com/sync="app=kubed"
+    - kubectl annotate secret {{ letsencrypt_certificate_name_prod }}-tls -n cert-manager kubed.appscode.com/sync="app=kubed"
+  ignore_errors: yes

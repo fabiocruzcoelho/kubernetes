@@ -45,7 +45,6 @@ kubernetes_chartcenter_url: https://repo.chartcenter.io
 # kubernetes_appscode_chart_url: https://charts.appscode.com/stable/
 # kubernetes_cert_manager_test_resources: true
 kubernetes_cert_manager_secret_name: clouddns-dns01-solver-svc-acct
-kubernetes_cert_manager_issuer_prd: klabs-com-production-tls
 
 # Drone-ci config files.
 kubernetes_drone_chart_url: https://charts.drone.io

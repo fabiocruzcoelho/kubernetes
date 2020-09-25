@@ -21,7 +21,7 @@
             paths:
               - "/"
         tls:
-          - secretName: "{{ kubernetes_cert_manager_issuer_prd }}"
+          - secretName: "{{ letsencrypt_certificate_name_prod }}-tls"
             hosts:
              - "{{ domain }}"
              - "*.{{ domain }}"
@@ -61,7 +61,7 @@
             paths:
               - "/"
         tls:
-          - secretName: "{{ kubernetes_cert_manager_issuer_prd }}"
+          - secretName: "{{ letsencrypt_certificate_name_prod }}-tls"
             hosts:
               - "{{ domain }}"
               - "*.{{ domain }}"

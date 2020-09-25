@@ -2,14 +2,14 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-staging
+  name: {{ letsencrypt_issuer_stg }}
   namespace: cert-manager
 spec:
   acme:
     email: {{ cert_manager_acme_email }}
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt-staging
+      name: {{ letsencrypt_issuer_stg }}
     solvers:
     - dns01:
         cloudDNS:
@@ -19,18 +19,18 @@ spec:
           serviceAccountSecretRef:
           # Set up a Service Account
           # Look: https://cert-manager.io/docs/configuration/acme/dns01/google/
-            name: {{ kubernetes_cert_manager_secret_name }}
+            name: {{ gcp_serviceaccount_name }}
             key: key.json
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: klabs-com-staging
+  name: {{ letsencrypt_certificate_name_stg }}
   namespace: cert-manager
 spec:
-  secretName: klabs-com-staging-tls
+  secretName: {{ letsencrypt_certificate_name_stg }}-tls
   issuerRef:
-    name: letsencrypt-staging
+    name: {{ letsencrypt_issuer_stg }}
     kind: ClusterIssuer
   commonName: "*.{{ domain }}"
   dnsNames:
